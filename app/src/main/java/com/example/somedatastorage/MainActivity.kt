@@ -1,5 +1,6 @@
 package com.example.somedatastorage
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -7,30 +8,27 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.somedatastorage.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var editTextAddNoteName: EditText
-    private lateinit var editTextAddNoteBody: EditText
-    private lateinit var editTextAddNoteDate: EditText
-    private lateinit var buttonAddNote: Button
-    private lateinit var recyclerView: RecyclerView
-    var df = SimpleDateFormat("d-M-y")
-    var noteManager = NoteManager()
+    companion object {
+        lateinit var context: Context
+        val scope by lazy { CoroutineScope(SupervisorJob()) }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        context = applicationContext
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        editTextAddNoteName = findViewById(R.id.editTextAddNoteName)
-        editTextAddNoteBody = findViewById(R.id.editTextAddNoteBody)
-        editTextAddNoteDate = findViewById(R.id.editTextAddNoteDate)
-        buttonAddNote = findViewById(R.id.buttonAddData)
-        recyclerView = findViewById(R.id.recyclerView)
-
-        editTextAddNoteDate.setText(df.format(Date()))
-        recyclerView.layoutManager= LinearLayoutManager(applicationContext)
+        with(ActivityMainBinding.inflate(layoutInflater)) {
+            viewModel = MainVM()
+            setContentView(root)
+        }
+        /*recyclerView.layoutManager= LinearLayoutManager(applicationContext)
         buttonAddNote.setOnClickListener {
             noteManager addNote Note().apply {
                 with(editTextAddNoteName) {
@@ -48,7 +46,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 Log.d("MY_TAG", toString())
             }
-            recyclerView.adapter = RvAdapterNote(noteManager)
-        }
+            recyclerView.adapter = RvAdapterNote(noteManager)*/
     }
 }

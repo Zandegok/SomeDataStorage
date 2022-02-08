@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    >
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.somedatastorage.MainVM" />
+    </data>
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -20,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:text="@={viewModel.fieldTitle}"
         android:hint="Заметка"
         android:inputType="textPersonName"
         android:textSize="24sp" />
@@ -37,6 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:text="@={viewModel.fieldBody}"
         android:hint="Содержание"
         android:inputType="textPersonName"
         android:textSize="24sp" />
@@ -55,6 +64,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="date"
+        android:text="@={viewModel.fieldDate}"
         android:textAlignment="center"
         android:textSize="24sp"
         tools:text="@tools:sample/date/ddmmyy" />
@@ -63,11 +73,15 @@
         android:id="@+id/buttonAddData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Добавить " />
+        android:text="Добавить "
+        android:onClick="@{view->viewModel.addNote()}"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:adapter="@{viewModel.adapter}"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
 </LinearLayout>
+</layout>

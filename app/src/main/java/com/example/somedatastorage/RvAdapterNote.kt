@@ -3,7 +3,6 @@ package com.example.somedatastorage
 import android.view.*
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
 
@@ -29,8 +28,8 @@ class RvAdapterNote(var noteManager: NoteManager) :
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         var note = noteManager.getNote(position)
         with(holder) {
-            editTextViewNoteName.setText(note.name)
-            editTextNoteBody.setText(note.body)
+            editTextViewNoteName.setText(note.title)
+            editTextNoteBody.setText(note.id.toString())
             editTextNoteDate.setText(df.format(note.date))
             buttonNoteDelete.setOnClickListener {
                 noteManager.deleteNote(position)
