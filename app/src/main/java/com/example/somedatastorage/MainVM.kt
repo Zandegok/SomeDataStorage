@@ -2,13 +2,14 @@ package com.example.somedatastorage
 
 import android.util.Log
 import androidx.databinding.ObservableField
+import kotlinx.coroutines.*
+
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class MainVM {
-    private val noteManager= NoteManager()
+    private val noteManager by lazy {NoteManager()}
     private val df = SimpleDateFormat(MainActivity.context.getString(R.string.dateFormat))
     val fieldTitle = ObservableField("")
     val fieldBody = ObservableField("")
@@ -22,13 +23,14 @@ class MainVM {
         set(value) =fieldDate.set(df.format(value))
 
     fun addNote() {
-        noteManager addNote Note().apply {
+        val note =Note().apply {
             title = this@MainVM.title.ifEmpty { "Заметка" }
             this@MainVM.title=""
             body = this@MainVM.body
             this@MainVM.body=""
             date = this@MainVM.date
         }
+        noteManager addNote note
         adapter.set( RvAdapterNote(noteManager))
     }
 

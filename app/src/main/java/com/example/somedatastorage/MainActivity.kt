@@ -9,15 +9,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.somedatastorage.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
-    companion object{
-        lateinit var context: Context }
+    companion object {
+        lateinit var context: Context
+        val scope by lazy { CoroutineScope(SupervisorJob()) }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        context=applicationContext
+        context = applicationContext
         super.onCreate(savedInstanceState)
         with(ActivityMainBinding.inflate(layoutInflater)) {
             viewModel = MainVM()

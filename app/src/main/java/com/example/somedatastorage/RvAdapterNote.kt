@@ -29,7 +29,7 @@ class RvAdapterNote(var noteManager: NoteManager) :
         var note = noteManager.getNote(position)
         with(holder) {
             editTextViewNoteName.setText(note.title)
-            editTextNoteBody.setText(note.body)
+            editTextNoteBody.setText(note.id.toString())
             editTextNoteDate.setText(df.format(note.date))
             buttonNoteDelete.setOnClickListener {
                 noteManager.deleteNote(position)
