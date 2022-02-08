@@ -1,10 +1,13 @@
 package com.example.somedatastorage
 
+import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
+import java.util.*
 
 class RvAdapterNote(var noteManager: NoteManager) :
     RecyclerView.Adapter<RvAdapterNote.NoteViewHolder>() {
@@ -28,9 +31,33 @@ class RvAdapterNote(var noteManager: NoteManager) :
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         var note = noteManager.getNote(position)
         with(holder) {
-            editTextViewNoteName.setText(note.title)
-            editTextNoteBody.setText(note.id.toString())
-            editTextNoteDate.setText(df.format(note.date))
+            with(editTextViewNoteName) {
+                setText(note.title)
+                setOnFocusChangeListener { _, _ ->
+                    if (!isFocused) {
+                        val index = holder.layoutPosition
+                        noteManager.updateNote(index) { it.title = text.toString() }
+                    }
+                }
+            }
+            with(editTextNoteBody) {
+                setText(note.body)
+                setOnFocusChangeListener { _, _ ->
+                    if (!isFocused) {
+                        val index = holder.layoutPosition
+                        noteManager.updateNote(index) { it.body = text.toString() }
+                    }
+                }
+            }
+            with(editTextNoteDate) {
+                setText(df.format(note.date))
+                setOnFocusChangeListener { _, _ ->
+                    if (!isFocused) {
+                        val index = holder.layoutPosition
+                        noteManager.updateNote(index) { it.date = df.parse("$text") ?: Date() }
+                    }
+                }
+            }
             buttonNoteDelete.setOnClickListener {
                 noteManager.deleteNote(position)
                 notifyItemRemoved(position)

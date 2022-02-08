@@ -28,6 +28,14 @@ class NoteManager() {
     }
 
     infix fun getNote(index: Int): Note = notes.get(index)
+
+    fun updateNote(index: Int, func: (Note)->Unit) {
+        func( notes[index])
+        MainActivity.scope.launch {
+            noteDao.update(notes[index])
+        }
+    }
+
     val count: Int get() = notes.size
     override fun toString(): String = "[${notes.joinToString { it.toString() }}]"
 }
